@@ -18,7 +18,7 @@ export default {
         math: true,
     },
     themeConfig: {
-        logo: '/assets/cf.png',
+        logo: '/cf.png',
         footer: {
             message: 'Released under the MIT License.',
             copyright: 'Copyright © 2023-present CCNUACM'

@@ -6,7 +6,7 @@ hero:
   text: 华中师范大学ACM协会
   tagline: 华中师范大学ACM协会官方网站
   image:
-    src: /assets/icpc.png
+    src: /icpc.png
     alt: icpc
   actions:
     - theme: brand
@@ -25,7 +25,7 @@ features:
     details: Lorem ipsum...
   - icon:
       dark: /
-      light: /assets/red.jpg
+      light: /red.jpg
     title: 唉资本
     details: Lorem ipsum...
 ---
