@@ -7,7 +7,7 @@ hero:
   tagline: 华中师范大学ACM协会官方网站
   image:
     src: /assets/icpc.png
-    alt: Red
+    alt: icpc
   actions:
     - theme: brand
       text: Get Started
