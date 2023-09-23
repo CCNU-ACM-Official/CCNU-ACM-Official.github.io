@@ -4,7 +4,7 @@ export default {
     lang: 'zh-CN',
     base: '/',
     title: 'CCNU ACM',
-    siteTitle: 'CCNU ACM',
+    siteTitle: 'CCNU ACCCCCM',
     description: 'CCNU ACM Wiki',
     lastUpdated: true,
     srcExclude: ['**/README.md', '**/TODO.md'],
