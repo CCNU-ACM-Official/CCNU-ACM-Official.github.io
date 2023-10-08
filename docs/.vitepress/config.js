@@ -49,7 +49,7 @@ export default {
                 items: [
                     {
                         text: '语法入门',
-                        link: '/语法入门/C++',
+                        link: '/语法入门/1.C++语法入门',
                     },
                     {
                         text: '基础算法',
@@ -99,8 +99,10 @@ export default {
                         {
                             text: '语法入门',
                             items: [
-                                {text: 'C++', link: '/语法入门/C++'},
-                                {text: 'STL', link: '/语法入门/STL'},
+                                {text: '1.C++语法入门', link: '/语法入门/1.C++语法入门'},
+                                {text: '2.位运算', link: '/语法入门/2.位运算'},
+                                {text: '3.时空复杂度与枚举', link: '/语法入门/3.时空复杂度与枚举'},
+                                {text: '4.STL', link: '/语法入门/4.STL'}
                             ]
                         },
                     ],

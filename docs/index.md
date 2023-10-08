@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /语法入门/C++
+      link: /语法入门/1.C++语法入门
     - theme: alt
       text: View on GitHub
       link: https://github.com/CCNU-ACM-Official/CCNU-ACM-Official.github.io
