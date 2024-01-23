@@ -2,6 +2,13 @@
   "name": "CCNUAcmWiki",
   "version": "1.0.0",
   "description": "CCNUACM协会wiki",
+  "keywords": [
+    "技术文档",
+    "博客",
+    "ACM"
+  ],
+  "homepage": "https://wiki.sirly.cc/",
+  "type": "module",
   "main": "index.js",
   "author": "OldSecond",
   "license": "MIT",
@@ -14,5 +21,7 @@
     "markdown-it-mathjax3": "^4.3.2",
     "vitepress": "^1.0.0-rc.40"
   },
-  "dependencies": {}
+  "dependencies": {
+    "vitepress-plugin-comment-with-giscus": "^1.1.12"
+  }
 }
