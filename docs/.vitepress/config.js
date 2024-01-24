@@ -65,7 +65,7 @@ export default {
           },
           {
             text: '数据结构',
-            link: '/数据结构/',
+            link: '/数据结构/树状数组',
           },
           {
             text: '数学',
@@ -149,7 +149,7 @@ export default {
               [
                 {
                   text: '数据结构',
-                  items: []
+                  items: [{text: '树状数组', link: '/数据结构/树状数组'}]
                 },
               ],
           '/数学/':
@@ -170,6 +170,9 @@ export default {
                   text: '字符串',
                   items: [
                     {text: '哈希', link: '/字符串/哈希'},
+                    {text: '字典树', link: '/字符串/字典树'},
+                    {text: 'AC自动机', link: '/字符串/AC自动机'},
+                    {text: 'KMP', link: '/字符串/kmp'},
                   ]
                 },
               ],
