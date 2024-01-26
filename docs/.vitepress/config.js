@@ -171,7 +171,7 @@ export default {
                   items: [
                     {text: '哈希', link: '/字符串/哈希'},
                     {text: '字典树', link: '/字符串/字典树'},
-                    {text: 'KMP', link: '/字符串/kmp'},
+                    {text: 'KMP', link: '/字符串/KMP'},
                     {text: 'AC自动机', link: '/字符串/AC自动机'},
                   ]
                 },

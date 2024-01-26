@@ -1,3 +1,8 @@
+---
+title: AC自动机
+titleTemplate: 字符串
+---
+
 ## AC自动机
 
 前置芝士：$Trie$ 树，$kmp$。
@@ -179,14 +184,3 @@ int query(string t)
 [P2444 [POI2000] 病毒  ](https://www.luogu.com.cn/problem/P2444)
 
 [P2414 [NOI2011] 阿狸的打字机  ](https://www.luogu.com.cn/problem/P2414)
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,8 @@
+---
+title: KMP
+titleTemplate: 字符串
+---
+
 ## KMP
 
 ### 字符串匹配
@@ -262,4 +267,3 @@ for(int i=1;i<=n;++i)
 [P2375 [NOI2014] 动物园  ](https://www.luogu.com.cn/problem/P2375)
 
 [Prefix Function Queries  ](https://www.luogu.com.cn/problem/CF1721E)
-
