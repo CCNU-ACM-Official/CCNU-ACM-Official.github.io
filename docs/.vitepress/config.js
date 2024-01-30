@@ -16,19 +16,25 @@ export default {
     // theme: 'material-theme-palenight',
     lineNumbers: true,
     math: true,
+    image: {
+      lazyLoading: true
+    }
+  },
+  sitemap: {
+    hostname: 'https://wiki.sirly.cc'
   },
   themeConfig: {
     logo: '/cf.png',
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2023-present CCNUACM'
+      copyright: 'Copyright © 2023-2024 CCNUACM'
     },
     search: {
       provider: 'local'
     },
-    outline: 'deep',
+    outline: [1, 6],
     editLink: {
-      pattern: 'https://github.com/',
+      pattern: 'https://github.com/CCNU-ACM-Official/CCNU-ACM-Official.github.io/edit/main/docs/:path',
       text: 'Edit this page on GitHub'
     },
     externalLinkIcon: true,
