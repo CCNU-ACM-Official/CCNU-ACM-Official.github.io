@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "markdown-it-mathjax3": "^4.3.2",
-    "vitepress": "^1.0.0-rc.40"
+    "vitepress": "^1.0.1"
   },
   "dependencies": {
     "vitepress-plugin-comment-with-giscus": "^1.1.12"
