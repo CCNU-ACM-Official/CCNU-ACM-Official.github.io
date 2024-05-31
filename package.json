@@ -1,5 +1,5 @@
 {
-  "name": "CCNUAcmWiki",
+  "name": "ccnuacmwiki",
   "version": "1.0.0",
   "description": "CCNUACM协会wiki",
   "keywords": [
@@ -19,9 +19,9 @@
   },
   "devDependencies": {
     "markdown-it-mathjax3": "^4.3.2",
-    "vitepress": "^1.0.1"
+    "vitepress": "^1.2.2"
   },
   "dependencies": {
-    "vitepress-plugin-comment-with-giscus": "^1.1.12"
+    "vitepress-plugin-comment-with-giscus": "^1.1.15"
   }
 }
