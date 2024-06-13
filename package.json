@@ -7,7 +7,7 @@
     "博客",
     "ACM"
   ],
-  "homepage": "https://wiki.sirly.cc/",
+  "homepage": "https://wiki.ccnuacm.com/",
   "type": "module",
   "main": "index.js",
   "author": "OldSecond",
@@ -22,6 +22,7 @@
     "vitepress": "^1.2.2"
   },
   "dependencies": {
+    "element-plus": "^2.7.5",
     "vitepress-plugin-comment-with-giscus": "^1.1.15"
   }
 }
