@@ -97,6 +97,7 @@ export default {
       {text: '活动日历', link: '/活动日历'},
       {text: '协会成果', link: '/协会成果'},
       {text: '关于我们', link: '/关于我们'},
+      {text: '去写题', link: 'https://ac.ccnuacm.com'},
     ],
     sidebar:
         {
