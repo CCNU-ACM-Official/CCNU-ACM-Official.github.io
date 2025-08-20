@@ -27,7 +27,7 @@ export default {
     logo: '/cf.png',
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2023-2024 CCNUACM'
+      copyright: 'Copyright © 2023-2025 CCNUACM'
     },
     search: {
       provider: 'local'
