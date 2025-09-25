@@ -3,12 +3,14 @@ import giscusTalk from 'vitepress-plugin-comment-with-giscus';
 import {useData, useRoute} from 'vitepress';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import CompetitionResult from './components/CompetitionResult.vue';
 
 export default {
   ...DefaultTheme,
   enhanceApp(ctx) {
     ctx.app.use(ElementPlus);
     DefaultTheme.enhanceApp(ctx);
+    ctx.app.component('CompetitionResult', CompetitionResult)
     // ...
   },
   setup() {
