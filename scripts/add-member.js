@@ -8,7 +8,7 @@ const avatarDir = process.env.AVATAR_DIR || 'public/avatar';
 
 const indentUnit = '    ';
 
-function normalizeUrl(url) {
+function ensureHttpsUrl(url) {
     if (!url || typeof url !== 'string') {
         return null;
     }
@@ -23,21 +23,6 @@ function normalizeUrl(url) {
         return `https:${trimmed}`;
     }
     return `https://${trimmed.replace(/^\/+/, '')}`;
-}
-
-function extractCodeforcesHandle(link) {
-    const normalized = normalizeUrl(link);
-    if (!normalized) {
-        return null;
-    }
-    try {
-        const url = new URL(normalized);
-        const segments = url.pathname.split('/').filter(Boolean);
-        return segments.pop() || null;
-    } catch (error) {
-        console.warn(`Unable to parse Codeforces handle from link: ${link}`);
-        return null;
-    }
 }
 
 function detectExtensionFromContentType(contentType) {
@@ -75,53 +60,29 @@ function detectExtensionFromUrl(url) {
     }
 }
 
-function resolveAvatarUrl(rawUrl, profileUrl) {
-    if (!rawUrl) {
-        return null;
-    }
-    const trimmed = rawUrl.trim();
-    if (!trimmed) {
-        return null;
-    }
-    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-        return trimmed;
-    }
-    if (trimmed.startsWith('//')) {
-        return `https:${trimmed}`;
-    }
-    try {
-        const base = new URL(profileUrl);
-        return new URL(trimmed, base).toString();
-    } catch (error) {
-        return null;
-    }
-}
-
 async function fetchCodeforcesAvatar(member) {
     if (!Array.isArray(member.links)) {
         throw new Error('Member payload must include a "links" array containing the Codeforces profile.');
     }
 
-    const cfLinkEntry = member.links.find((linkEntry) => {
-        if (!linkEntry || typeof linkEntry.link !== 'string') {
-            return false;
-        }
-        return /codeforces\.com\/profile/i.test(linkEntry.link);
-    });
+    const cfLinkEntry = member.links.find((linkEntry) => linkEntry && typeof linkEntry.link === 'string' && linkEntry.link.trim().length > 0);
 
     if (!cfLinkEntry) {
         throw new Error('Unable to locate a Codeforces profile link in member.links; required for avatar download.');
     }
 
-    const profileUrl = normalizeUrl(cfLinkEntry.link);
-    if (!profileUrl) {
-        throw new Error('The Codeforces profile link is invalid or empty.');
+    const handle = cfLinkEntry.link.trim();
+    if (!handle) {
+        throw new Error('Codeforces handle is empty.');
     }
 
-    const handle = extractCodeforcesHandle(profileUrl);
-    if (!handle) {
-        throw new Error('Unable to determine Codeforces handle from the provided profile link.');
+    const handlePattern = /^[A-Za-z0-9_.-]+$/;
+    if (!handlePattern.test(handle)) {
+        throw new Error(`Invalid Codeforces handle: ${handle}`);
     }
+
+    const profileUrl = `https://codeforces.com/profile/${encodeURIComponent(handle)}`;
+    cfLinkEntry.link = profileUrl;
 
     const apiUrl = `https://codeforces.com/api/user.info?handles=${encodeURIComponent(handle)}`;
     console.log(`Fetching Codeforces user info for avatar: ${apiUrl}`);
@@ -143,13 +104,18 @@ async function fetchCodeforcesAvatar(member) {
     }
 
     const userInfo = apiPayload.result[0];
-    const avatarCandidate = normalizeUrl(userInfo.titlePhoto || userInfo.avatar);
+    const avatarCandidate = userInfo.titlePhoto || userInfo.avatar;
     if (!avatarCandidate) {
         throw new Error('Codeforces user info does not include an avatar URL.');
     }
 
-    console.log(`Downloading Codeforces avatar: ${avatarCandidate}`);
-    const avatarResponse = await fetch(avatarCandidate, {
+    const avatarUrl = ensureHttpsUrl(avatarCandidate);
+    if (!avatarUrl) {
+        throw new Error('Failed to normalize Codeforces avatar URL.');
+    }
+
+    console.log(`Downloading Codeforces avatar: ${avatarUrl}`);
+    const avatarResponse = await fetch(avatarUrl, {
         headers: {
             'User-Agent': 'CCNU-ACM-Automation/1.0 (+https://github.com/CCNU-ACM-Official)',
         },
@@ -163,7 +129,7 @@ async function fetchCodeforcesAvatar(member) {
     const buffer = Buffer.from(arrayBuffer);
 
     const contentType = avatarResponse.headers.get('content-type');
-    let extension = detectExtensionFromContentType(contentType) || detectExtensionFromUrl(avatarCandidate) || 'jpg';
+    let extension = detectExtensionFromContentType(contentType) || detectExtensionFromUrl(avatarUrl) || 'jpg';
     extension = extension.toLowerCase();
 
     const safeHandle = handle.replace(/[^a-zA-Z0-9-_]/g, '_');
