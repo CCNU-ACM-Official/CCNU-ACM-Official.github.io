@@ -25,6 +25,78 @@ function ensureHttpsUrl(url) {
     return `https://${trimmed.replace(/^\/+/, '')}`;
 }
 
+function findClosingBracketIndex(source, openBracketIndex) {
+    let depth = 0;
+    let inSingleQuote = false;
+    let inDoubleQuote = false;
+    let inTemplateLiteral = false;
+    let escaped = false;
+
+    for (let i = openBracketIndex; i < source.length; i += 1) {
+        const char = source[i];
+
+        if (escaped) {
+            escaped = false;
+            continue;
+        }
+
+        if (char === '\\') {
+            escaped = true;
+            continue;
+        }
+
+        if (inSingleQuote) {
+            if (char === '\'') {
+                inSingleQuote = false;
+            }
+            continue;
+        }
+
+        if (inDoubleQuote) {
+            if (char === '"') {
+                inDoubleQuote = false;
+            }
+            continue;
+        }
+
+        if (inTemplateLiteral) {
+            if (char === '`') {
+                inTemplateLiteral = false;
+            }
+            continue;
+        }
+
+        if (char === '\'') {
+            inSingleQuote = true;
+            continue;
+        }
+
+        if (char === '"') {
+            inDoubleQuote = true;
+            continue;
+        }
+
+        if (char === '`') {
+            inTemplateLiteral = true;
+            continue;
+        }
+
+        if (char === '[') {
+            depth += 1;
+            continue;
+        }
+
+        if (char === ']') {
+            depth -= 1;
+            if (depth === 0) {
+                return i;
+            }
+        }
+    }
+
+    return -1;
+}
+
 function detectExtensionFromContentType(contentType) {
     if (!contentType) {
         return null;
@@ -234,12 +306,17 @@ async function main() {
         throw new Error(`Could not locate roster array for group "${resolvedGroup}" in ${targetFile}.`);
     }
 
-    const arrayEndIndex = content.indexOf('];', arrayIndex);
-    if (arrayEndIndex === -1) {
+    const arrayOpenIndex = content.indexOf('[', arrayIndex);
+    if (arrayOpenIndex === -1) {
+        throw new Error(`Could not determine start of members${resolvedGroup} array.`);
+    }
+
+    const arrayCloseBracketIndex = findClosingBracketIndex(content, arrayOpenIndex);
+    if (arrayCloseBracketIndex === -1) {
         throw new Error(`Could not determine end of members${resolvedGroup} array.`);
     }
 
-    const existingSection = content.slice(arrayIndex, arrayEndIndex);
+    const existingSection = content.slice(arrayIndex, arrayCloseBracketIndex);
     const escapedName = member.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const namePattern = new RegExp(`name:\\s*["']${escapedName}["']`);
     if (namePattern.test(existingSection)) {
@@ -253,8 +330,11 @@ async function main() {
     const objectLiteral = formatObject(member, 2);
     const formattedMember = `${indentUnit.repeat(2)}${objectLiteral},\n`;
 
-    const insertionPoint = arrayEndIndex;
-    content = `${content.slice(0, insertionPoint)}${formattedMember}${content.slice(insertionPoint)}`;
+    const insertionPoint = arrayCloseBracketIndex;
+    const prefix = content.slice(0, insertionPoint);
+    const suffix = content.slice(insertionPoint);
+    const insertionBlock = prefix.endsWith('\n') ? formattedMember : `\n${formattedMember}`;
+    content = `${prefix}${insertionBlock}${suffix}`;
 
     writeFileSync(filePath, content, 'utf8');
 
