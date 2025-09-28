@@ -1,67 +1,185 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { resolve } from 'node:path';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { resolve, join } from 'node:path';
 
 const targetFile = process.env.TARGET_FILE || 'docs/协会成员.md';
 const payloadRaw = process.env.MEMBER_PAYLOAD;
 const groupEnv = process.env.MEMBER_GROUP;
-
-if (!payloadRaw) {
-    throw new Error('Missing MEMBER_PAYLOAD environment variable.');
-}
-
-let member;
-try {
-    member = JSON.parse(payloadRaw);
-} catch (error) {
-    console.error('Failed to parse MEMBER_PAYLOAD:', payloadRaw);
-    throw error;
-}
+const avatarDir = process.env.AVATAR_DIR || 'public/avatar';
 
 const indentUnit = '    ';
 
-const resolvedGroup = (() => {
-    if (groupEnv && groupEnv.trim()) {
-        return groupEnv.trim();
+function normalizeUrl(url) {
+    if (!url || typeof url !== 'string') {
+        return null;
     }
-    if (typeof member.group !== 'undefined' && String(member.group).trim()) {
-        const groupValue = String(member.group).trim();
-        delete member.group;
-        return groupValue;
+    const trimmed = url.trim();
+    if (!trimmed) {
+        return null;
     }
-    const currentYear = new Date().getFullYear();
-    return String(currentYear);
-})();
-
-delete member.group;
-
-if (!member.name || typeof member.name !== 'string') {
-    throw new Error('Member payload must include a "name" field.');
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+        return trimmed;
+    }
+    if (trimmed.startsWith('//')) {
+        return `https:${trimmed}`;
+    }
+    return `https://${trimmed.replace(/^\/+/, '')}`;
 }
 
-const filePath = resolve(process.cwd(), targetFile);
-if (!existsSync(filePath)) {
-    throw new Error(`Target file not found: ${filePath}`);
+function extractCodeforcesHandle(link) {
+    const normalized = normalizeUrl(link);
+    if (!normalized) {
+        return null;
+    }
+    try {
+        const url = new URL(normalized);
+        const segments = url.pathname.split('/').filter(Boolean);
+        return segments.pop() || null;
+    } catch (error) {
+        console.warn(`Unable to parse Codeforces handle from link: ${link}`);
+        return null;
+    }
 }
 
-let content = readFileSync(filePath, 'utf8');
-const arrayMarker = `const members${resolvedGroup} = [`;
-const arrayIndex = content.indexOf(arrayMarker);
-
-if (arrayIndex === -1) {
-    throw new Error(`Could not locate roster array for group "${resolvedGroup}" in ${targetFile}.`);
+function detectExtensionFromContentType(contentType) {
+    if (!contentType) {
+        return null;
+    }
+    const type = contentType.split(';')[0].trim().toLowerCase();
+    switch (type) {
+        case 'image/jpeg':
+        case 'image/jpg':
+            return 'jpg';
+        case 'image/png':
+            return 'png';
+        case 'image/webp':
+            return 'webp';
+        case 'image/gif':
+            return 'gif';
+        default:
+            return null;
+    }
 }
 
-const arrayEndIndex = content.indexOf('];', arrayIndex);
-if (arrayEndIndex === -1) {
-    throw new Error(`Could not determine end of members${resolvedGroup} array.`);
+function detectExtensionFromUrl(url) {
+    try {
+        const parsed = new URL(url);
+        const pathname = parsed.pathname;
+        const lastSegment = pathname.split('/').pop() || '';
+        const cleanSegment = lastSegment.split('?')[0].split('#')[0];
+        if (!cleanSegment.includes('.')) {
+            return null;
+        }
+        return cleanSegment.split('.').pop();
+    } catch (error) {
+        return null;
+    }
 }
 
-const existingSection = content.slice(arrayIndex, arrayEndIndex);
-const escapedName = member.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const namePattern = new RegExp(`name:\\s*["']${escapedName}["']`);
-if (namePattern.test(existingSection)) {
-    console.log(`Member "${member.name}" already exists in members${resolvedGroup}. Skipping update.`);
-    process.exit(0);
+function resolveAvatarUrl(rawUrl, profileUrl) {
+    if (!rawUrl) {
+        return null;
+    }
+    const trimmed = rawUrl.trim();
+    if (!trimmed) {
+        return null;
+    }
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+        return trimmed;
+    }
+    if (trimmed.startsWith('//')) {
+        return `https:${trimmed}`;
+    }
+    try {
+        const base = new URL(profileUrl);
+        return new URL(trimmed, base).toString();
+    } catch (error) {
+        return null;
+    }
+}
+
+async function fetchCodeforcesAvatar(member) {
+    if (!Array.isArray(member.links)) {
+        throw new Error('Member payload must include a "links" array containing the Codeforces profile.');
+    }
+
+    const cfLinkEntry = member.links.find((linkEntry) => {
+        if (!linkEntry || typeof linkEntry.link !== 'string') {
+            return false;
+        }
+        return /codeforces\.com\/profile/i.test(linkEntry.link);
+    });
+
+    if (!cfLinkEntry) {
+        throw new Error('Unable to locate a Codeforces profile link in member.links; required for avatar download.');
+    }
+
+    const profileUrl = normalizeUrl(cfLinkEntry.link);
+    if (!profileUrl) {
+        throw new Error('The Codeforces profile link is invalid or empty.');
+    }
+
+    const handle = extractCodeforcesHandle(profileUrl);
+    if (!handle) {
+        throw new Error('Unable to determine Codeforces handle from the provided profile link.');
+    }
+
+    const apiUrl = `https://codeforces.com/api/user.info?handles=${encodeURIComponent(handle)}`;
+    console.log(`Fetching Codeforces user info for avatar: ${apiUrl}`);
+
+    const apiResponse = await fetch(apiUrl, {
+        headers: {
+            'User-Agent': 'CCNU-ACM-Automation/1.0 (+https://github.com/CCNU-ACM-Official)',
+            Accept: 'application/json',
+        },
+    });
+
+    if (!apiResponse.ok) {
+        throw new Error(`Failed to fetch Codeforces user info. Status: ${apiResponse.status} ${apiResponse.statusText}`);
+    }
+
+    const apiPayload = await apiResponse.json();
+    if (!apiPayload || apiPayload.status !== 'OK' || !Array.isArray(apiPayload.result) || apiPayload.result.length === 0) {
+        throw new Error('Unexpected response from Codeforces user info API.');
+    }
+
+    const userInfo = apiPayload.result[0];
+    const avatarCandidate = normalizeUrl(userInfo.titlePhoto || userInfo.avatar);
+    if (!avatarCandidate) {
+        throw new Error('Codeforces user info does not include an avatar URL.');
+    }
+
+    console.log(`Downloading Codeforces avatar: ${avatarCandidate}`);
+    const avatarResponse = await fetch(avatarCandidate, {
+        headers: {
+            'User-Agent': 'CCNU-ACM-Automation/1.0 (+https://github.com/CCNU-ACM-Official)',
+        },
+    });
+
+    if (!avatarResponse.ok) {
+        throw new Error(`Failed to download avatar image. Status: ${avatarResponse.status} ${avatarResponse.statusText}`);
+    }
+
+    const arrayBuffer = await avatarResponse.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const contentType = avatarResponse.headers.get('content-type');
+    let extension = detectExtensionFromContentType(contentType) || detectExtensionFromUrl(avatarCandidate) || 'jpg';
+    extension = extension.toLowerCase();
+
+    const safeHandle = handle.replace(/[^a-zA-Z0-9-_]/g, '_');
+    const fileName = `${safeHandle}.${extension}`;
+
+    const absoluteAvatarDir = resolve(process.cwd(), avatarDir);
+    if (!existsSync(absoluteAvatarDir)) {
+        mkdirSync(absoluteAvatarDir, { recursive: true });
+    }
+
+    const filePath = join(absoluteAvatarDir, fileName);
+    writeFileSync(filePath, buffer);
+
+    console.log(`Saved avatar to ${filePath}`);
+
+    return `/avatar/${fileName}`;
 }
 
 function formatValue(value, level) {
@@ -105,12 +223,79 @@ function formatObject(obj, level) {
     return `{\n${formattedEntries.join(',\n')}\n${indent}}`;
 }
 
-const objectLiteral = formatObject(member, 2);
-const formattedMember = `${indentUnit.repeat(2)}${objectLiteral},\n`;
+async function main() {
+    if (!payloadRaw) {
+        throw new Error('Missing MEMBER_PAYLOAD environment variable.');
+    }
 
-const insertionPoint = arrayEndIndex;
-content = `${content.slice(0, insertionPoint)}${formattedMember}${content.slice(insertionPoint)}`;
+    let member;
+    try {
+        member = JSON.parse(payloadRaw);
+    } catch (error) {
+        console.error('Failed to parse MEMBER_PAYLOAD:', payloadRaw);
+        throw error;
+    }
 
-writeFileSync(filePath, content, 'utf8');
+    const resolvedGroup = (() => {
+        if (groupEnv && groupEnv.trim()) {
+            return groupEnv.trim();
+        }
+        if (typeof member.group !== 'undefined' && String(member.group).trim()) {
+            const groupValue = String(member.group).trim();
+            delete member.group;
+            return groupValue;
+        }
+        const currentYear = new Date().getFullYear();
+        return String(currentYear);
+    })();
 
-console.log(`Inserted member "${member.name}" into members${resolvedGroup}.`);
+    delete member.group;
+
+    if (!member.name || typeof member.name !== 'string') {
+        throw new Error('Member payload must include a "name" field.');
+    }
+
+    const filePath = resolve(process.cwd(), targetFile);
+    if (!existsSync(filePath)) {
+        throw new Error(`Target file not found: ${filePath}`);
+    }
+
+    let content = readFileSync(filePath, 'utf8');
+    const arrayMarker = `const members${resolvedGroup} = [`;
+    const arrayIndex = content.indexOf(arrayMarker);
+
+    if (arrayIndex === -1) {
+        throw new Error(`Could not locate roster array for group "${resolvedGroup}" in ${targetFile}.`);
+    }
+
+    const arrayEndIndex = content.indexOf('];', arrayIndex);
+    if (arrayEndIndex === -1) {
+        throw new Error(`Could not determine end of members${resolvedGroup} array.`);
+    }
+
+    const existingSection = content.slice(arrayIndex, arrayEndIndex);
+    const escapedName = member.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const namePattern = new RegExp(`name:\\s*["']${escapedName}["']`);
+    if (namePattern.test(existingSection)) {
+        console.log(`Member "${member.name}" already exists in members${resolvedGroup}. Skipping update.`);
+        return;
+    }
+
+    const avatarPath = await fetchCodeforcesAvatar(member);
+    member.avatar = avatarPath;
+
+    const objectLiteral = formatObject(member, 2);
+    const formattedMember = `${indentUnit.repeat(2)}${objectLiteral},\n`;
+
+    const insertionPoint = arrayEndIndex;
+    content = `${content.slice(0, insertionPoint)}${formattedMember}${content.slice(insertionPoint)}`;
+
+    writeFileSync(filePath, content, 'utf8');
+
+    console.log(`Inserted member "${member.name}" into members${resolvedGroup}.`);
+}
+
+await main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+});
