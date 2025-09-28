@@ -4,7 +4,7 @@ import { resolve, join } from 'node:path';
 const targetFile = process.env.TARGET_FILE || 'docs/协会成员.md';
 const payloadRaw = process.env.MEMBER_PAYLOAD;
 const groupEnv = process.env.MEMBER_GROUP;
-const avatarDir = process.env.AVATAR_DIR || 'public/avatar';
+const avatarDir = process.env.AVATAR_DIR || 'docs/public/avatar';
 
 const indentUnit = '    ';
 
