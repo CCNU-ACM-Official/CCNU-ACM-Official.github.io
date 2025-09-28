@@ -1,0 +1,54 @@
+name: Add roster member via webhook
+
+on:
+  repository_dispatch:
+    types:
+      - add_member
+
+permissions:
+  contents: write
+
+jobs:
+  insert-member:
+    runs-on: ubuntu-latest
+    env:
+      MEMBER_NAME: ${{ github.event.client_payload.member.name || 'new member' }}
+      MEMBER_BRANCH: member/${{ github.run_id }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Insert member into roster
+        env:
+          MEMBER_PAYLOAD: ${{ toJson(github.event.client_payload.member) }}
+          MEMBER_GROUP: ${{ github.event.client_payload.group }}
+          TARGET_FILE: docs/协会成员.md
+        run: node scripts/add-member.js
+
+      - name: Show pending diff
+        run: git diff
+
+      - name: Create pull request
+        if: ${{ !cancelled() }}
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.MEMBER_BRANCH }}
+          base: main
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          commit-message: Add member ${{ env.MEMBER_NAME }}
+          title: "Add member ${{ env.MEMBER_NAME }}"
+          body: |
+            ## Summary
+
+            - Add member `${{ env.MEMBER_NAME }}` to roster via webhook dispatch.
+
+            _This pull request was generated automatically._
