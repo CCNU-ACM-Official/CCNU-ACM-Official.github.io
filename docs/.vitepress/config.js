@@ -109,7 +109,8 @@ export default defineConfig({
               { text: '1.语法入门', link: '/语法入门/1.语法入门' },
               { text: '2.位运算', link: '/语法入门/2.位运算' },
               { text: '3.时空复杂度与枚举', link: '/语法入门/3.时空复杂度与枚举' },
-              { text: '11.STL', link: '/语法入门/11.STL' }
+              { text: '11.STL', link: '/语法入门/11.STL' },
+              { text: '使用winget安装编译器', link: '/语法入门/使用winget安装编译器' }
             ]
           },
         ],
