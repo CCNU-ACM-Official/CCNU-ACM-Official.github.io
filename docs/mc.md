@@ -27,6 +27,3 @@ Minecraft 1.21.10 + fabric 0.18.2
 mc.ccnuacm.com
 ```
 
-
-
-[def]: file://mcqrcode.jpg
