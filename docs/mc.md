@@ -4,6 +4,8 @@
 
 有需要可联系vlad `at` ccnuacm.com
 
+![](mcqrcode.jpg)
+
 ## 版本
 
 Minecraft 1.21.1 + fabric 0.18.2
@@ -27,3 +29,6 @@ cloth-config-15.0.140-fabric.jar
 mc.ccnuacm.com
 ```
 
+
+
+[def]: file://mcqrcode.jpg
