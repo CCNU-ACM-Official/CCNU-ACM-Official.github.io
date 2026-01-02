@@ -4,7 +4,7 @@
 
 有需要可联系vlad `at` ccnuacm.com
 
-![](mcqrcode.jpg)
+![](public/mcqrcode.jpg)
 
 ## 版本
 
