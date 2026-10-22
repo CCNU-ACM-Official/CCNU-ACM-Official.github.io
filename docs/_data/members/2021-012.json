@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2021-012",
+  "enrollYear": 2021,
+  "name": "chengor",
+  "org": "人工智能教育学部 大数据",
+  "desc": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "avatar": "/avatar/chengor.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/chengor"
+    }
+  ],
+  "hidden": false
+}

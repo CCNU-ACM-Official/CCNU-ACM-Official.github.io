@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2021-005",
+  "enrollYear": 2021,
+  "name": "ggboyy",
+  "org": "计算机学院",
+  "desc": "喜欢多项式,但可能这辈子不能在赛场开出一道",
+  "avatar": "/avatar/ggboyy.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/ggboyy"
+    }
+  ],
+  "hidden": false
+}

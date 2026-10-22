@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2022-011",
+  "enrollYear": 2022,
+  "name": "LogSingleDog",
+  "org": "计算机学院",
+  "desc": "既没头脑，又不高兴",
+  "avatar": "/avatar/LogSingleDog.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/LogSingleDog"
+    }
+  ],
+  "hidden": false
+}

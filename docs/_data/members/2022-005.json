@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2022-005",
+  "enrollYear": 2022,
+  "name": "砥",
+  "org": "人工智能教育学部",
+  "desc": "这个人很懒，没有简介，快提醒他写简介",
+  "avatar": "/avatar/砥.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/woertt"
+    }
+  ],
+  "hidden": false
+}

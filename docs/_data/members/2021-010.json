@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2021-010",
+  "enrollYear": 2021,
+  "name": "s62238",
+  "org": "人工智能教育学部 大数据",
+  "desc": "在线征婚，qq:1518376220速加",
+  "avatar": "/avatar/s62238.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/yuhyuhy"
+    }
+  ],
+  "hidden": false
+}

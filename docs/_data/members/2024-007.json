@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2024-007",
+  "enrollYear": 2024,
+  "name": "Einar",
+  "org": "人工智能教育学部",
+  "desc": "清蒸",
+  "avatar": "/avatar/user_8173.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/user_8173"
+    }
+  ],
+  "hidden": false
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2021-009",
+  "enrollYear": 2021,
+  "name": "1935Zz",
+  "org": "计算机学院",
+  "desc": "追风赶月莫停留\n平芜尽处是春山",
+  "avatar": "/avatar/1935Zz.jpeg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/1935Zz"
+    }
+  ],
+  "hidden": false
+}
