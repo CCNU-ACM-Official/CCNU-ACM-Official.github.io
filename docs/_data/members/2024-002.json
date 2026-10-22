@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2024-002",
+  "enrollYear": 2024,
+  "name": "haer",
+  "org": "计算机",
+  "desc": "真的除了帅一无是处了吗",
+  "avatar": "/avatar/haer.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/haer"
+    }
+  ],
+  "hidden": false
+}

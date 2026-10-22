@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2023-006",
+  "enrollYear": 2023,
+  "name": ".",
+  "org": "计算机学院",
+  "desc": "人",
+  "avatar": "/avatar/default.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/PVZ123"
+    }
+  ],
+  "hidden": false
+}

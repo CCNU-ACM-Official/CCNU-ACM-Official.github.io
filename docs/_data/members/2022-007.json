@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2022-007",
+  "enrollYear": 2022,
+  "name": "Wqsing",
+  "org": "人工智能教育学部 大数据",
+  "desc": "别学离散了，成为单位元了！",
+  "avatar": "/avatar/Wqsing.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/Wqq2022214662"
+    }
+  ],
+  "hidden": false
+}

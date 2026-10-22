@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2023-002",
+  "enrollYear": 2023,
+  "name": "Whitecarrot",
+  "org": "计算机学院",
+  "desc": "pityboy",
+  "avatar": "/avatar/Whitecarrot.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/Whitecarrot"
+    }
+  ],
+  "hidden": false
+}

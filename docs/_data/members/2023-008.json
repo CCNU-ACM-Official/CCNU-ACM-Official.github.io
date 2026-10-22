@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2023-008",
+  "enrollYear": 2023,
+  "name": "Sirius10000",
+  "org": "人工智能教育学部 人工智能",
+  "desc": "我？",
+  "avatar": "/avatar/Sirius10000.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/Sirius10000"
+    }
+  ],
+  "hidden": false
+}

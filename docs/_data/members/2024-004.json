@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2024-004",
+  "enrollYear": 2024,
+  "name": "somebodyX",
+  "org": "计算机学院",
+  "desc": "大本钟邮局快递员",
+  "avatar": "/avatar/somebodyX.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/somebodyX"
+    }
+  ],
+  "hidden": false
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2022-001",
+  "enrollYear": 2022,
+  "name": "Sadbo1",
+  "org": "计算机学院",
+  "desc": "下头男",
+  "avatar": "/avatar/Sadbo1.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/imsosad"
+    }
+  ],
+  "hidden": false
+}

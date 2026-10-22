@@ -1,0 +1,37 @@
+name: Validate member data
+
+# 数据层护栏：任何一次对太庙数据的写入（人工或 Worker 自动提交）都要先过这一关。
+# 校验不过 → 这个 workflow 红，PR 上的合并按钮被禁用；直接 push 时也能在 Actions 里立刻看到。
+
+on:
+  push:
+    paths:
+      - 'docs/_data/**'
+      - 'scripts/**'
+      - '.github/workflows/validate.yml'
+  pull_request:
+    paths:
+      - 'docs/_data/**'
+      - 'scripts/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate member data
+        run: node scripts/validate-data.mjs
+
+      - name: Unit tests (merge / token / sanitize)
+        run: node --test scripts/tests/member.test.mjs

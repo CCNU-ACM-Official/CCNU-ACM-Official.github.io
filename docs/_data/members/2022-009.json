@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2022-009",
+  "enrollYear": 2022,
+  "name": "neurotic",
+  "org": "计算机学院",
+  "desc": "yb与sp的挂件",
+  "avatar": "/avatar/neurotic.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/Neurotical"
+    }
+  ],
+  "hidden": false
+}

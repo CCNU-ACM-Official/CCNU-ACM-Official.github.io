@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2022-004",
+  "enrollYear": 2022,
+  "name": "sheep",
+  "org": "计算机学院",
+  "desc": "什么都垫底 (",
+  "avatar": "/avatar/sheep.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/ccnusheep"
+    }
+  ],
+  "hidden": false
+}

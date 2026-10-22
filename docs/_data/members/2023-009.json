@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2023-009",
+  "enrollYear": 2023,
+  "name": "Windows2066",
+  "org": "计算机学院",
+  "desc": "擅长羡慕，狗叫，赤石和红温",
+  "avatar": "/avatar/windows2066.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/Windows2066"
+    }
+  ],
+  "hidden": false
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "2020-002",
+  "enrollYear": 2020,
+  "name": "Chime（ZIMA）",
+  "title": "ICPC金 / 浙大cs硕",
+  "org": "计算机学院",
+  "desc": "犬吠 · King",
+  "avatar": "/avatar/Chime.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/chime"
+    }
+  ],
+  "hidden": false
+}

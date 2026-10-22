@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "2022-008",
+  "enrollYear": 2022,
+  "name": "VladmirZ",
+  "org": "人工智能教育学部 教育技术学",
+  "desc": "｛\"code\": 418, \"msg\": \"I'm a teapot\"｝",
+  "avatar": "/avatar/VladmirZ.jpg",
+  "sponsor": "/sponsor/VladmirZ.png",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/VladmirZ"
+    }
+  ],
+  "hidden": false
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2021-007",
+  "enrollYear": 2021,
+  "name": "HuiZi",
+  "org": "人工智能教育学部 数字媒体技术",
+  "desc": "给我一个枕头，我能睡一整天",
+  "avatar": "/avatar/HuiZi.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/HuiZi"
+    }
+  ],
+  "hidden": false
+}

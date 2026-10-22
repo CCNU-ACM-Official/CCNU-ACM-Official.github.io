@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2024-005",
+  "enrollYear": 2024,
+  "name": "致好人的奏鸣曲",
+  "org": "计算机学院",
+  "desc": "什么？你说无牌而终？\n那你的学分绩肯定很高吧！\n啊？学分绩也烂了？\n那肯定是项目大牛吧！\n啊？项目也不会？\n那肯定是天天在谈恋爱吧！\n啊？没有npy吗？\n好可怜哦，雜魚醬～",
+  "avatar": "/avatar/OrionWong.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/OrionWong"
+    }
+  ],
+  "hidden": false
+}

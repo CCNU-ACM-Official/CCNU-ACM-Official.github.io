@@ -15,7 +15,13 @@
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress serve docs"
+    "docs:serve": "vitepress serve docs",
+    "validate": "node scripts/validate-data.mjs",
+    "test": "node --test scripts/tests/member.test.mjs scripts/tests/sync.test.mjs",
+    "apply-export": "node scripts/apply-export.mjs",
+    "sync-feishu": "node scripts/sync-feishu.mjs",
+    "watch-feishu": "node scripts/watch-feishu.mjs",
+    "migrate": "node scripts/migrate-members.mjs --from scripts/fixtures/协会成员.legacy.md"
   },
   "devDependencies": {
     "markdown-it-mathjax3": "^4.3.2",

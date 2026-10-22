@@ -1,0 +1,58 @@
+name: Sync roster from Feishu
+
+# L3：GitHub 定时去飞书拉数据，而不是让飞书反过来推。
+# 好处是飞书侧只持只读凭据，仓库写权限始终留在 GitHub 自己的 runner 里。
+
+on:
+  schedule:
+    # 每天 UTC 02:00 = 北京时间 10:00。改完之后 5 分钟到 2 分钟内生效都不必在意，这里不敏感。
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-feishu
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate current data (baseline)
+        run: node scripts/validate-data.mjs
+
+      - name: Pull from Feishu and merge
+        env:
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_APP_TOKEN: ${{ secrets.FEISHU_APP_TOKEN }}
+          FEISHU_TABLE_ID: ${{ secrets.FEISHU_TABLE_ID }}
+          FEISHU_COLUMNS: ${{ vars.FEISHU_COLUMNS }}
+        run: node scripts/sync-feishu.mjs --write
+
+      - name: Validate merged data
+        run: node scripts/validate-data.mjs
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet; then
+            echo "没有变化，跳过提交。"
+            exit 0
+          fi
+          echo "变更摘要："
+          git diff --stat
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/_data docs/public/avatar
+          git commit -m "sync: 从飞书表格同步太庙信息"
+          git push
