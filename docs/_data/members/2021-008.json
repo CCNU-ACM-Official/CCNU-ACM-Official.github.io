@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2021-008",
+  "enrollYear": 2021,
+  "name": "Aiplc",
+  "org": "计算机学院",
+  "desc": "计算机学院21级ACM唯一无评优废物",
+  "avatar": "/avatar/Aiplc.jpeg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/Aoisrot"
+    }
+  ],
+  "hidden": false
+}

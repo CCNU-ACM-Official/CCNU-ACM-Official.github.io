@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2023-007",
+  "enrollYear": 2023,
+  "name": "fervor_w",
+  "org": "人工智能教育学部 数据科学与大数据技术",
+  "desc": "喜欢羡慕以及羡慕羡慕",
+  "avatar": "/avatar/fervor_w.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/fervor_w"
+    }
+  ],
+  "hidden": false
+}

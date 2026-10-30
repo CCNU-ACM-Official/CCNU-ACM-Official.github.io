@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "2020-007",
+  "enrollYear": 2020,
+  "name": "sanfen",
+  "title": "世界",
+  "org": "计算机学院",
+  "desc": "虽然我叫sanfen但我不会三分",
+  "avatar": "/avatar/sanfen.jpg",
+  "links": [],
+  "hidden": false
+}

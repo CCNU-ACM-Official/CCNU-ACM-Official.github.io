@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2022-003",
+  "enrollYear": 2022,
+  "name": "wzxccnuwzx",
+  "org": "计算机学院",
+  "desc": "华师懒人,不想动",
+  "avatar": "/avatar/wzxccnuwzx.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/wzxccnuwzx210"
+    }
+  ],
+  "hidden": false
+}

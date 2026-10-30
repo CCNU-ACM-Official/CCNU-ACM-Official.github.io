@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "2022-012",
+  "enrollYear": 2022,
+  "name": "Clementine",
+  "org": "计算机学院",
+  "desc": "灰名大菜鸡",
+  "avatar": "/avatar/Clementine.jpg",
+  "links": [
+    {
+      "platform": "codeforces",
+      "url": "https://codeforces.com/profile/2865730850"
+    }
+  ],
+  "hidden": false
+}
